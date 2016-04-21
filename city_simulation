@@ -26,7 +26,12 @@ for step in range(time_limit):
 	new_city = copy.deepcopy(city)
 	for x in range(size):
 		for y in range(size):
-			new_city[x][y] = city[x][y] # the default is that cells don't change
+			empty_cell_total = 0
+			for offset in stencil:
+				if x + offset[0] >= 0 and y + offset[1] >= 0:
+					if x + offset[0] < size and y + offset[1] < size:
+						if new_city[x + offset[0]][y + offset[1]] == zones[0]:
+							empty_cell_total += 1
 			if new_city[x][y] != zones[0] and empty_cell_total == 0:
 				new_city[x][y] == zones[0]
 			if new_city[x][y] == zones[0] and empty_cell_total <= 2:
@@ -35,6 +40,7 @@ for step in range(time_limit):
 				new_city[x][y] == zones[2]
 			if new_city[x][y] == zones[2] and empty_cell_total >= 4:
 				new_city[x][y] == zones[3]
+
 	print('Step {step}:'.format(step = step))
 	for y in reversed(range(size)):
 		print('  ', end = '')
